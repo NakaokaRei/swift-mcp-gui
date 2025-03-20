@@ -91,7 +91,7 @@ await server.withMethodHandler(CallTool.self) { params in
         
     case "scroll":
         guard let direction = arguments["direction"]?.stringValue,
-              let clicks = arguments["clicks"]?.doubleValue else {
+              let clicks = arguments["clicks"]?.intValue else {
             return .init(content: [.text("Invalid parameters: direction must be a string and clicks must be a number")], isError: true)
         }
         switch direction.lowercased() {
