@@ -4,9 +4,9 @@ A Model Context Protocol (MCP) server that allows controlling Mac OS X through S
 
 ## Requirements
 
-- macOS 12.0 or later
-- Swift 5.7 or later
-- Xcode 14.0 or later
+- macOS 15.0 or later
+- Swift 6.0 or later
+- Xcode 16.0 or later
 
 ## Installation
 
@@ -16,14 +16,21 @@ git clone https://github.com/yourusername/swift-mcp-gui.git
 cd swift-mcp-gui
 ```
 
-2. Build the project:
+2. Install
 ```bash
-swift build
+swift package experimental-install
 ```
 
-3. Run the server:
-```bash
-swift run MCPGUIServer
+3. Add command to your MCP client.
+```json
+{
+  "mcpServers" : {
+    "swift-mcp-gui" : {
+      "command" : "/Users/USERNAME/.swiftpm/bin/swift-mcp-gui"
+    }
+  }
+}
+
 ```
 
 ## Available Tools
@@ -33,8 +40,8 @@ The server provides the following tools for controlling macOS:
 ### 1. Mouse Movement
 - Tool name: `moveMouse`
 - Input:
-  - `x`: Integer (x-coordinate)
-  - `y`: Integer (y-coordinate)
+  - `x`: double (x-coordinate)
+  - `y`: double (y-coordinate)
 - Moves the mouse cursor to the specified coordinates
 
 ### 2. Mouse Clicks
@@ -43,7 +50,7 @@ The server provides the following tools for controlling macOS:
   - `button`: String ("left" or "right")
 - Performs a mouse click at the current cursor position
 
-### 3. Keyboard Input
+### 3. Keyboard Input (TODO)
 - Tool name: `sendKeys`
 - Input:
   - `keys`: Array of strings (key names)
@@ -56,18 +63,6 @@ The server provides the following tools for controlling macOS:
   - `direction`: String ("up", "down", "left", "right")
   - `clicks`: Integer (number of scroll clicks)
 - Performs scrolling in the specified direction
-
-## Example Usage
-
-Here's an example of how to use the tools from an MCP client:
-
-```python
-# Example using Python MCP client
-client.call_tool("moveMouse", {"x": 100, "y": 200})
-client.call_tool("mouseClick", {"button": "left"})
-client.call_tool("sendKeys", {"keys": ["command", "space"]})
-client.call_tool("scroll", {"direction": "down", "clicks": 5})
-```
 
 ## Security Considerations
 
