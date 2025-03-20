@@ -1,4 +1,5 @@
 {
+  "originHash" : "b23f04dc3998466207df2b7707666ccfadf9bb8d9e7e948496b913f4e5298baa",
   "pins" : [
     {
       "identity" : "mcp-swift-sdk",
@@ -32,10 +33,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI",
       "state" : {
-        "branch" : "master",
-        "revision" : "7000a647ff6341a3ed989b8ec0c7c24d5723307b"
+        "revision" : "90dd7c4ead2e48a07810e8176487e0c436631207",
+        "version" : "0.3.2"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

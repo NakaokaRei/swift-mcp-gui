@@ -56,6 +56,19 @@ await server.withMethodHandler(ListTools.self) { _ in
                     ],
                     "required": ["direction", "clicks"]
                 ]
+            ),
+            .init(
+                name: "sendKeys",
+                description: "Sends keyboard shortcuts or key combinations",
+                inputSchema: [
+                    "type": "object",
+                    "properties": [
+                        "keys": ["type": "array",
+                                 "items": ["type": "string"],
+                                 "description": "Sends keyboard shortcuts or key combinations"]
+                    ],
+                    "required": ["keys"]
+                ]
             )
         ]
     )
@@ -65,7 +78,7 @@ await server.withMethodHandler(CallTool.self) { params in
     guard let arguments = params.arguments else {
         return .init(content: [.text("No arguments provided")], isError: true)
     }
-    
+
     switch params.name {
     case "moveMouse":
         guard let x = arguments["x"]?.doubleValue,
@@ -74,7 +87,7 @@ await server.withMethodHandler(CallTool.self) { params in
         }
         SwiftAutoGUI.move(to: CGPoint(x: x, y: y))
         return .init(content: [.text("Mouse moved to (\(x), \(y))")], isError: false)
-        
+
     case "mouseClick":
         guard let button = arguments["button"]?.stringValue else {
             return .init(content: [.text("Invalid parameter: button must be a string")], isError: true)
@@ -88,7 +101,7 @@ await server.withMethodHandler(CallTool.self) { params in
             return .init(content: [.text("Invalid button type. Must be 'left' or 'right'")], isError: true)
         }
         return .init(content: [.text("\(button) click performed")], isError: false)
-        
+
     case "scroll":
         guard let direction = arguments["direction"]?.stringValue,
               let clicks = arguments["clicks"]?.intValue else {
@@ -107,7 +120,16 @@ await server.withMethodHandler(CallTool.self) { params in
             return .init(content: [.text("Invalid scroll direction. Must be 'up', 'down', 'left', or 'right'")], isError: true)
         }
         return .init(content: [.text("Scrolled \(direction) by \(Int(clicks)) clicks")], isError: false)
-        
+
+    case "sendKeys":
+        guard let keys = arguments["keys"]?.arrayValue?.compactMap({ $0.stringValue }), !keys.isEmpty else {
+            return .init(content: [.text("Invalid parameters: keys must be a non-empty array of strings")], isError: true)
+        }
+
+        let sendKeys = keys.compactMap(Key.init(rawValue:))
+        SwiftAutoGUI.sendKeyShortcut(sendKeys)
+        return .init(content: [.text("Send key shortcut \(keys)")], isError: false)
+
     default:
         return .init(content: [.text("Unknown tool: \(params.name)")], isError: true)
     }

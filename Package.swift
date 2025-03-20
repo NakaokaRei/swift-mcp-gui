@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/loopwork-ai/mcp-swift-sdk", branch: "main"),
-        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI", branch: "master")
+        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI.git", exact: "0.3.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
