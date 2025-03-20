@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-mcp-gui}",
+            "name": "Debug swift-mcp-gui",
+            "program": "${workspaceFolder:swift-mcp-gui}/.build/debug/swift-mcp-gui",
+            "preLaunchTask": "swift: Build Debug swift-mcp-gui"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-mcp-gui}",
+            "name": "Release swift-mcp-gui",
+            "program": "${workspaceFolder:swift-mcp-gui}/.build/release/swift-mcp-gui",
+            "preLaunchTask": "swift: Build Release swift-mcp-gui"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-mcp-gui}",
+            "name": "Debug MCPGUIServer",
+            "program": "${workspaceFolder:swift-mcp-gui}/.build/debug/MCPGUIServer",
+            "preLaunchTask": "swift: Build Debug MCPGUIServer"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-mcp-gui}",
+            "name": "Release MCPGUIServer",
+            "program": "${workspaceFolder:swift-mcp-gui}/.build/release/MCPGUIServer",
+            "preLaunchTask": "swift: Build Release MCPGUIServer"
+        }
+    ]
+}
