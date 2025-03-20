@@ -50,7 +50,7 @@ The server provides the following tools for controlling macOS:
   - `button`: String ("left" or "right")
 - Performs a mouse click at the current cursor position
 
-### 3. Keyboard Input (TODO)
+### 3. Keyboard Input
 - Tool name: `sendKeys`
 - Input:
   - `keys`: Array of strings (key names)
