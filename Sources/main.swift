@@ -80,12 +80,36 @@ await server.withMethodHandler(CallTool.self) { params in
 
     switch params.name {
     case "moveMouse":
-        guard let x = arguments["x"]?.doubleValue,
-              let y = arguments["y"]?.doubleValue else {
-            return .init(content: [.text("Invalid parameters: x and y must be numbers \(arguments)")], isError: true)
+        // Try to get x and y as doubles, handling both numeric and string inputs
+        let xValue = arguments["x"]
+        let yValue = arguments["y"]
+        
+        guard let xValue = xValue, let yValue = yValue else {
+            return .init(content: [.text("Missing parameters: x and y are required")], isError: true)
         }
-        SwiftAutoGUI.move(to: CGPoint(x: x, y: y))
-        return .init(content: [.text("Mouse moved to (\(x), \(y))")], isError: false)
+        
+        // Try multiple ways to extract the numeric value
+        var x: Double?
+        var y: Double?
+        
+        // First try direct double conversion
+        x = xValue.doubleValue
+        y = yValue.doubleValue
+        
+        // If that fails, try getting as string and parsing
+        if x == nil, let xStr = xValue.stringValue {
+            x = Double(xStr)
+        }
+        if y == nil, let yStr = yValue.stringValue {
+            y = Double(yStr)
+        }
+        
+        guard let finalX = x, let finalY = y else {
+            return .init(content: [.text("Invalid parameters: x and y must be numbers. Received x=\(xValue), y=\(yValue)")], isError: true)
+        }
+        
+        SwiftAutoGUI.move(to: CGPoint(x: finalX, y: finalY))
+        return .init(content: [.text("Mouse moved to (\(finalX), \(finalY))")], isError: false)
 
     case "mouseClick":
         guard let button = arguments["button"]?.stringValue else {
