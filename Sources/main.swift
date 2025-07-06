@@ -8,7 +8,6 @@ let server = Server(
     version: "1.0.0",
     capabilities: .init(
         prompts: .init(listChanged: true),
-        resources: .init(list: true, read: true, subscribe: true, listChanged: true),
         tools: .init(listChanged: true)
     )
 )

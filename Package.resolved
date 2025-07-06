@@ -1,13 +1,22 @@
 {
-  "originHash" : "b23f04dc3998466207df2b7707666ccfadf9bb8d9e7e948496b913f4e5298baa",
+  "originHash" : "55091f4b3f48c15481aae1b8d36711f476dcd560123bf0c4607352c4d70f4000",
   "pins" : [
     {
-      "identity" : "mcp-swift-sdk",
+      "identity" : "eventsource",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/loopwork-ai/mcp-swift-sdk",
+      "location" : "https://github.com/loopwork-ai/eventsource.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "dccaa3a411cfc2b028d390cdecd2c8acbdc65746"
+        "revision" : "07957602bb99a5355c810187e66e6ce378a1057d",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "opencv-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yeatse/opencv-spm.git",
+      "state" : {
+        "revision" : "9b5943c3095350dedfb2bebd276f05643b7045d1",
+        "version" : "4.11.0"
       }
     },
     {
@@ -20,12 +29,21 @@
       }
     },
     {
+      "identity" : "swift-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/modelcontextprotocol/swift-sdk.git",
+      "state" : {
+        "revision" : "9742933d2ff250212a04aed39b123bcc63a21e9c",
+        "version" : "0.9.0"
+      }
+    },
+    {
       "identity" : "swift-system",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
-        "revision" : "a34201439c74b53f0fd71ef11741af7e7caf01e1",
-        "version" : "1.4.2"
+        "revision" : "61e4ca4b81b9e09e2ec863b00c340eb13497dac6",
+        "version" : "1.5.0"
       }
     },
     {
@@ -33,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI",
       "state" : {
-        "revision" : "90dd7c4ead2e48a07810e8176487e0c436631207",
-        "version" : "0.3.2"
+        "revision" : "ab0b88d57bf76bd1c21a6510a7ec79b47c072a45",
+        "version" : "0.5.0"
       }
     }
   ],

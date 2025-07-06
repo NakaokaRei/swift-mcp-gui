@@ -9,8 +9,8 @@ let package = Package(
         .macOS(.v15)
     ],
     dependencies: [
-        .package(url: "https://github.com/loopwork-ai/mcp-swift-sdk", branch: "main"),
-        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI.git", exact: "0.3.2")
+        .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.9.0"),
+        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI.git", from: "0.5.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -18,7 +18,7 @@ let package = Package(
         .executableTarget(
             name: "swift-mcp-gui",
             dependencies: [
-                .product(name: "MCP", package: "mcp-swift-sdk"),
+                .product(name: "MCP", package: "swift-sdk"),
                 "SwiftAutoGUI"
             ]
         ),
