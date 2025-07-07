@@ -40,33 +40,33 @@ The server provides the following tools for controlling macOS:
 ### 1. Mouse Movement
 - Tool name: `moveMouse`
 - Input:
-  - `x`: double (x-coordinate)
-  - `y`: double (y-coordinate)
+  - `x`: number (x-coordinate) - accepts integers, doubles, or string representations
+  - `y`: number (y-coordinate) - accepts integers, doubles, or string representations
 - Moves the mouse cursor to the specified coordinates
 
 ### 2. Mouse Clicks
 - Tool name: `mouseClick`
 - Input:
-  - `button`: String ("left" or "right")
+  - `button`: string ("left" or "right")
 - Performs a mouse click at the current cursor position
 
 ### 3. Keyboard Input
 - Tool name: `sendKeys`
 - Input:
-  - `keys`: Array of strings (key names)
+  - `keys`: array of strings (key names)
 - Sends keyboard shortcuts or key combinations
 - Example keys: "command", "control", "option", "shift", "return", "space", "a", "1", etc.
 
 ### 4. Scrolling
 - Tool name: `scroll`
 - Input:
-  - `direction`: String ("up", "down", "left", "right")
-  - `clicks`: Integer (number of scroll clicks)
+  - `direction`: string ("up", "down", "left", "right")
+  - `clicks`: number (number of scroll clicks)
 - Performs scrolling in the specified direction
 
 ## Security Considerations
 
-This server has full control over your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.
+This server requires full accessibility permissions in System Preferences to control your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.
 
 ## License
 
