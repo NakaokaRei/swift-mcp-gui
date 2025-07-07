@@ -80,7 +80,7 @@ await server.withMethodHandler(CallTool.self) { params in
 
     switch params.name {
     case "moveMouse":
-        // Try to get x and y as doubles, handling both numeric and string inputs
+        // Try to get x and y as any numeric type
         let xValue = arguments["x"]
         let yValue = arguments["y"]
         
@@ -92,15 +92,27 @@ await server.withMethodHandler(CallTool.self) { params in
         var x: Double?
         var y: Double?
         
-        // First try direct double conversion
-        x = xValue.doubleValue
-        y = yValue.doubleValue
-        
-        // If that fails, try getting as string and parsing
-        if x == nil, let xStr = xValue.stringValue {
+        // Try direct double conversion first
+        if let doubleX = xValue.doubleValue {
+            x = doubleX
+        }
+        // Try integer conversion
+        else if let intX = xValue.intValue {
+            x = Double(intX)
+        }
+        // Try getting as string and parsing
+        else if let xStr = xValue.stringValue {
             x = Double(xStr)
         }
-        if y == nil, let yStr = yValue.stringValue {
+        
+        // Same for y
+        if let doubleY = yValue.doubleValue {
+            y = doubleY
+        }
+        else if let intY = yValue.intValue {
+            y = Double(intY)
+        }
+        else if let yStr = yValue.stringValue {
             y = Double(yStr)
         }
         

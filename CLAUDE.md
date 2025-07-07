@@ -22,7 +22,7 @@ swift package experimental-install
 # Uninstall the executable
 swift package experimental-uninstall swift-mcp-gui
 
-# Reinstall (uninstall then install)
+# Reinstall (uninstall then install) - Run this after implementing new features
 swift package experimental-uninstall swift-mcp-gui && swift package experimental-install
 
 # Clean build artifacts
@@ -56,3 +56,11 @@ This project implements an MCP server that provides GUI automation capabilities 
 - **Security**: Requires full accessibility permissions in System Preferences
 - **Communication**: Uses stdio transport (stdin/stdout)
 - **No test suite**: Currently no tests are implemented
+
+## Development Workflow
+
+After implementing new features or fixing bugs, always reinstall the package to ensure the latest changes are available:
+
+```bash
+swift package experimental-uninstall swift-mcp-gui && swift package experimental-install
+```
