@@ -1,6 +1,6 @@
 # Swift MCP GUI Server
 
-A Model Context Protocol (MCP) server that allows controlling Mac OS X through [SwiftAutoGUI](https://github.com/NakaokaRei/SwiftAutoGUI). This server provides tools for programmatically controlling the mouse and keyboard through MCP clients.
+A Model Context Protocol (MCP) server that allows controlling macOS through [SwiftAutoGUI](https://github.com/NakaokaRei/SwiftAutoGUI). This server provides tools for programmatically controlling the mouse and keyboard through MCP clients.
 
 ## Requirements
 
