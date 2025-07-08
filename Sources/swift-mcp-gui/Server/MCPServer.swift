@@ -1,7 +1,7 @@
 import Foundation
 import MCP
 
-class MCPServer {
+final class MCPServer: @unchecked Sendable {
     private let server: Server
     private let toolRegistry: ToolRegistry
     
@@ -46,12 +46,15 @@ class MCPServer {
                 return .init(content: [.text("Server not available")], isError: true)
             }
             
-            guard let arguments = params.arguments else {
-                return .init(content: [.text("No arguments provided")], isError: true)
+            let argumentsValue: Value
+            if let args = params.arguments {
+                argumentsValue = .object(args)
+            } else {
+                argumentsValue = .object([:])
             }
             
             do {
-                return try await self.toolRegistry.execute(name: params.name, arguments: arguments)
+                return try await self.toolRegistry.execute(name: params.name, arguments: argumentsValue)
             } catch {
                 return .init(content: [.text("Error executing tool: \(error.localizedDescription)")], isError: true)
             }

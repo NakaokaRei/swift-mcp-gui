@@ -2,34 +2,33 @@ import Foundation
 import MCP
 
 class ToolRegistry {
-    private var tools: [String: any Tool] = [:]
+    private var toolHandlers: [String: (Value) async throws -> CallTool.Result] = [:]
+    private var toolDefinitions: [Tool] = []
     
-    func register<T: Tool>(_ toolType: T.Type) {
-        let tool = toolType.init()
-        tools[toolType.name] = tool
+    func registerTool(definition: Tool, handler: @escaping (Value) async throws -> CallTool.Result) {
+        toolDefinitions.append(definition)
+        toolHandlers[definition.name] = handler
     }
     
-    func execute(name: String, arguments: JSONValue) async throws -> CallTool.Result {
-        guard let tool = tools[name] else {
+    func execute(name: String, arguments: Value) async throws -> CallTool.Result {
+        guard let handler = toolHandlers[name] else {
             return .init(content: [.text("Unknown tool: \(name)")], isError: true)
         }
         
-        return try await tool.execute(arguments: arguments)
+        return try await handler(arguments)
     }
     
-    func listTools() -> [ToolInfo] {
-        return tools.keys.compactMap { toolName in
-            guard let tool = tools[toolName] else { return nil }
-            return type(of: tool).toolInfo
-        }
+    func listTools() -> [Tool] {
+        return toolDefinitions
     }
     
     func registerAllTools() {
-        register(MoveMouseTool.self)
-        register(MouseClickTool.self)
-        register(ScrollTool.self)
-        register(SendKeysTool.self)
-        register(GetScreenSizeTool.self)
-        register(GetPixelColorTool.self)
+        // Register each tool with its definition and handler
+        MoveMouseTool.register(in: self)
+        MouseClickTool.register(in: self)
+        ScrollTool.register(in: self)
+        SendKeysTool.register(in: self)
+        GetScreenSizeTool.register(in: self)
+        GetPixelColorTool.register(in: self)
     }
 }

@@ -2,31 +2,33 @@ import Foundation
 import MCP
 
 struct ParameterParser {
-    private let arguments: JSONValue
+    private let arguments: Value
     
-    init(arguments: JSONValue) {
+    init(arguments: Value) {
         self.arguments = arguments
     }
     
     func parseDouble(_ key: String) throws -> Double {
-        guard let value = arguments[key] else {
+        // Check if arguments is an object
+        guard case .object(let dict) = arguments,
+              let value = dict[key] else {
             throw ParameterError.missingParameter(key)
         }
         
-        // Try direct double conversion first
-        if let doubleValue = value.doubleValue {
-            return doubleValue
+        // Try double conversion first
+        if case .double(let num) = value {
+            return num
         }
         
-        // Try integer conversion
-        if let intValue = value.intValue {
-            return Double(intValue)
+        // Try int conversion
+        if case .int(let num) = value {
+            return Double(num)
         }
         
         // Try getting as string and parsing
-        if let stringValue = value.stringValue {
-            guard let parsed = Double(stringValue) else {
-                throw ParameterError.invalidType(key: key, expected: "number", received: stringValue)
+        if case .string(let str) = value {
+            guard let parsed = Double(str) else {
+                throw ParameterError.invalidType(key: key, expected: "number", received: str)
             }
             return parsed
         }
@@ -35,24 +37,26 @@ struct ParameterParser {
     }
     
     func parseInt(_ key: String) throws -> Int {
-        guard let value = arguments[key] else {
+        // Check if arguments is an object
+        guard case .object(let dict) = arguments,
+              let value = dict[key] else {
             throw ParameterError.missingParameter(key)
         }
         
-        // Try direct integer conversion first
-        if let intValue = value.intValue {
-            return intValue
+        // Try int conversion first
+        if case .int(let num) = value {
+            return num
         }
         
         // Try double conversion and cast to int
-        if let doubleValue = value.doubleValue {
-            return Int(doubleValue)
+        if case .double(let num) = value {
+            return Int(num)
         }
         
         // Try getting as string and parsing
-        if let stringValue = value.stringValue {
-            guard let parsed = Int(stringValue) else {
-                throw ParameterError.invalidType(key: key, expected: "number", received: stringValue)
+        if case .string(let str) = value {
+            guard let parsed = Int(str) else {
+                throw ParameterError.invalidType(key: key, expected: "number", received: str)
             }
             return parsed
         }
@@ -61,37 +65,43 @@ struct ParameterParser {
     }
     
     func parseString(_ key: String) throws -> String {
-        guard let value = arguments[key] else {
+        // Check if arguments is an object
+        guard case .object(let dict) = arguments,
+              let value = dict[key] else {
             throw ParameterError.missingParameter(key)
         }
         
-        guard let stringValue = value.stringValue else {
+        guard case .string(let str) = value else {
             throw ParameterError.invalidType(key: key, expected: "string", received: String(describing: value))
         }
         
-        return stringValue
+        return str
     }
     
     func parseStringArray(_ key: String) throws -> [String] {
-        guard let value = arguments[key] else {
+        // Check if arguments is an object
+        guard case .object(let dict) = arguments,
+              let value = dict[key] else {
             throw ParameterError.missingParameter(key)
         }
         
-        guard let arrayValue = value.arrayValue else {
+        guard case .array(let arr) = value else {
             throw ParameterError.invalidType(key: key, expected: "array", received: String(describing: value))
         }
         
-        let stringArray = arrayValue.compactMap { $0.stringValue }
-        
-        guard stringArray.count == arrayValue.count else {
-            throw ParameterError.invalidType(key: key, expected: "array of strings", received: String(describing: value))
+        var stringArray: [String] = []
+        for item in arr {
+            guard case .string(let str) = item else {
+                throw ParameterError.invalidType(key: key, expected: "array of strings", received: String(describing: value))
+            }
+            stringArray.append(str)
         }
         
         return stringArray
     }
 }
 
-enum ParameterError: Error, LocalizedError {
+enum ParameterError: Swift.Error, LocalizedError {
     case missingParameter(String)
     case invalidType(key: String, expected: String, received: String)
     

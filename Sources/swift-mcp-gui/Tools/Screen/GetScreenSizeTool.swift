@@ -2,18 +2,20 @@ import Foundation
 import MCP
 import SwiftAutoGUI
 
-class GetScreenSizeTool: Tool {
-    static let name = "getScreenSize"
-    static let description = "Get screen dimensions"
-    static let inputSchema: JSONValue = [
-        "type": "object",
-        "properties": [:]
-    ]
-    
-    init() {}
-    
-    func execute(arguments: JSONValue) async throws -> CallTool.Result {
-        let screenSize = SwiftAutoGUI.size()
-        return .init(content: [.text("Screen size: {\"width\": \(screenSize.width), \"height\": \(screenSize.height)}")], isError: false)
+struct GetScreenSizeTool {
+    static func register(in registry: ToolRegistry) {
+        let tool = Tool(
+            name: "getScreenSize",
+            description: "Get screen dimensions",
+            inputSchema: .object([
+                "type": .string("object"),
+                "properties": .object([:])
+            ])
+        )
+        
+        registry.registerTool(definition: tool) { _ in
+            let screenSize = SwiftAutoGUI.size()
+            return .init(content: [.text("Screen size: {\"width\": \(screenSize.width), \"height\": \(screenSize.height)}")], isError: false)
+        }
     }
 }
