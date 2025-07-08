@@ -22,5 +22,9 @@ let package = Package(
                 "SwiftAutoGUI"
             ]
         ),
+        .testTarget(
+            name: "swift-mcp-guiTests",
+            dependencies: ["swift-mcp-gui"]
+        ),
     ]
 )
