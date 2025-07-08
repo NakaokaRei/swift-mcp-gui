@@ -68,6 +68,26 @@ await server.withMethodHandler(ListTools.self) { _ in
                     ],
                     "required": ["keys"]
                 ]
+            ),
+            .init(
+                name: "getScreenSize",
+                description: "Get screen dimensions",
+                inputSchema: [
+                    "type": "object",
+                    "properties": [:]
+                ]
+            ),
+            .init(
+                name: "getPixelColor",
+                description: "Get color of specific pixel",
+                inputSchema: [
+                    "type": "object",
+                    "properties": [
+                        "x": ["type": "number", "description": "X coordinate"],
+                        "y": ["type": "number", "description": "Y coordinate"]
+                    ],
+                    "required": ["x", "y"]
+                ]
             )
         ]
     )
@@ -164,6 +184,58 @@ await server.withMethodHandler(CallTool.self) { params in
         let sendKeys = keys.compactMap(Key.init(rawValue:))
         SwiftAutoGUI.sendKeyShortcut(sendKeys)
         return .init(content: [.text("Send key shortcut \(keys)")], isError: false)
+
+    case "getScreenSize":
+        let screenSize = SwiftAutoGUI.size()
+        return .init(content: [.text("Screen size: {\"width\": \(screenSize.width), \"height\": \(screenSize.height)}")], isError: false)
+
+    case "getPixelColor":
+        let xValue = arguments["x"]
+        let yValue = arguments["y"]
+        
+        guard let xValue = xValue, let yValue = yValue else {
+            return .init(content: [.text("Missing parameters: x and y are required")], isError: true)
+        }
+        
+        // Try multiple ways to extract the numeric value
+        var x: Int?
+        var y: Int?
+        
+        // Try direct integer conversion first
+        if let intX = xValue.intValue {
+            x = intX
+        }
+        // Try double conversion and cast to int
+        else if let doubleX = xValue.doubleValue {
+            x = Int(doubleX)
+        }
+        // Try getting as string and parsing
+        else if let xStr = xValue.stringValue {
+            x = Int(xStr)
+        }
+        
+        // Same for y
+        if let intY = yValue.intValue {
+            y = intY
+        }
+        else if let doubleY = yValue.doubleValue {
+            y = Int(doubleY)
+        }
+        else if let yStr = yValue.stringValue {
+            y = Int(yStr)
+        }
+        
+        guard let finalX = x, let finalY = y else {
+            return .init(content: [.text("Invalid parameters: x and y must be numbers. Received x=\(xValue), y=\(yValue)")], isError: true)
+        }
+        
+        let pixelColor = SwiftAutoGUI.pixel(x: finalX, y: finalY)
+        let red = Int(pixelColor.redComponent * 255)
+        let green = Int(pixelColor.greenComponent * 255)
+        let blue = Int(pixelColor.blueComponent * 255)
+        let alpha = Int(pixelColor.alphaComponent * 255)
+        
+        return .init(content: [.text("Pixel color at (\(finalX), \(finalY)): {\"red\": \(red), \"green\": \(green), \"blue\": \(blue), \"alpha\": \(alpha)}")], isError: false)
 
     default:
         return .init(content: [.text("Unknown tool: \(params.name)")], isError: true)
