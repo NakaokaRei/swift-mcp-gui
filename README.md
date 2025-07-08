@@ -64,6 +64,17 @@ The server provides the following tools for controlling macOS:
   - `clicks`: number (number of scroll clicks)
 - Performs scrolling in the specified direction
 
+### 5. Screen Size
+- Tool name: `getScreenSize`
+- Returns the main screen dimensions (width and height)
+
+### 6. Pixel Color
+- Tool name: `getPixelColor`
+- Input:
+  - `x`: number (x-coordinate) - accepts integers, doubles, or string representations
+  - `y`: number (y-coordinate) - accepts integers, doubles, or string representations
+- Returns the RGBA color values (0-255) of the pixel at the specified coordinates
+
 ## Security Considerations
 
 This server requires full accessibility permissions in System Preferences to control your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.
