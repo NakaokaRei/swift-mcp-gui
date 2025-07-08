@@ -231,46 +231,16 @@ await server.withMethodHandler(CallTool.self) { params in
             return .init(content: [.text("Invalid parameters: x and y must be numbers. Received x=\(xValue), y=\(yValue)")], isError: true)
         }
         
-        // Use macOS native APIs to get pixel color
-        let screenRect = CGRect(x: finalX, y: finalY, width: 1, height: 1)
-        
-        guard let cgImage = CGDisplayCreateImage(CGMainDisplayID()) else {
-            return .init(content: [.text("Failed to capture screen image")], isError: true)
+        // Use SwiftAutoGUI to get pixel color
+        guard let color = SwiftAutoGUI.pixel(x: finalX, y: finalY) else {
+            return .init(content: [.text("Failed to get pixel color at (\(finalX), \(finalY))")], isError: true)
         }
         
-        let screenSize = SwiftAutoGUI.size()
-        
-        // Convert screen coordinates to image coordinates (flip Y)
-        let imageY = Int(screenSize.height) - finalY - 1
-        
-        // Create NSImage from CGImage
-        let nsImage = NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
-        
-        // Get pixel color at coordinates
-        guard let cgImageRef = nsImage.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-            return .init(content: [.text("Failed to get CGImage from NSImage")], isError: true)
-        }
-        
-        // Check bounds
-        if finalX < 0 || finalX >= cgImageRef.width || imageY < 0 || imageY >= cgImageRef.height {
-            return .init(content: [.text("Coordinates (\(finalX), \(finalY)) are outside screen bounds")], isError: true)
-        }
-        
-        // Create data provider to read pixel data
-        guard let dataProvider = cgImageRef.dataProvider,
-              let data = dataProvider.data,
-              let bytes = CFDataGetBytePtr(data) else {
-            return .init(content: [.text("Failed to get pixel data")], isError: true)
-        }
-        
-        let bytesPerPixel = 4
-        let bytesPerRow = cgImageRef.bytesPerRow
-        let pixelIndex = imageY * bytesPerRow + finalX * bytesPerPixel
-        
-        let red = Int(bytes[pixelIndex + 1])  // Red component
-        let green = Int(bytes[pixelIndex + 2])  // Green component
-        let blue = Int(bytes[pixelIndex + 3])  // Blue component
-        let alpha = Int(bytes[pixelIndex])  // Alpha component
+        // Extract RGBA components
+        let red = Int(color.redComponent * 255)
+        let green = Int(color.greenComponent * 255)
+        let blue = Int(color.blueComponent * 255)
+        let alpha = Int(color.alphaComponent * 255)
         
         return .init(content: [.text("Pixel color at (\(finalX), \(finalY)): {\"red\": \(red), \"green\": \(green), \"blue\": \(blue), \"alpha\": \(alpha)}")], isError: false)
 
