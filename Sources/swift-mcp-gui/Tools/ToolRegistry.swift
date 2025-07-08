@@ -28,7 +28,7 @@ class ToolRegistry {
         register(MoveMouseTool.self)
         register(MouseClickTool.self)
         register(ScrollTool.self)
-        register(SendKeysTool.self)
+        // register(SendKeysTool.self) // Temporarily commented out
         register(GetScreenSizeTool.self)
         register(GetPixelColorTool.self)
     }
