@@ -4,11 +4,14 @@ import SwiftAutoGUI
 
 class SendKeysTool: Tool {
     static let name = "sendKeys"
-    static let description = "Send keyboard shortcuts"
+    static let description = "Send keyboard shortcuts and key combinations"
     static let inputSchema: JSONValue = [
         "type": "object",
         "properties": [
-            "keys": ["type": "string", "description": "Key combination to send (e.g., 'cmd+c', 'alt+tab')"]
+            "keys": [
+                "type": "string",
+                "description": "Keyboard shortcut or text to send (e.g., 'cmd+c', 'Hello World')"
+            ]
         ],
         "required": ["keys"]
     ]
@@ -21,17 +24,12 @@ class SendKeysTool: Tool {
         do {
             let keys = try parser.parseString("keys")
             
-            // Parse the key combination
-            let components = keys.lowercased().split(separator: "+").map(String.init)
-            
-            if components.isEmpty {
-                return .init(content: [.text("Invalid key combination")], isError: true)
-            }
-            
-            // Handle key combinations using SwiftAutoGUI
             SwiftAutoGUI.sendKeys(keys)
             
-            return .init(content: [.text("Keys '\(keys)' sent successfully")], isError: false)
+            return .init(
+                content: [.text("Sent keys: \(keys)")],
+                isError: false
+            )
         } catch {
             return .init(content: [.text(error.localizedDescription)], isError: true)
         }
