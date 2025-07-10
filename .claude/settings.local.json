@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(swift package:*)",
-      "Bash(swift build)"
+      "Bash(swift build)",
+      "Bash(cat:*)"
     ],
     "deny": [
       "Bash(sudo:*)",
