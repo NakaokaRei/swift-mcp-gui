@@ -11,6 +11,9 @@ struct ScreenToolsTests {
         ScrollTool.register(in: toolRegistry)
         GetScreenSizeTool.register(in: toolRegistry)
         GetPixelColorTool.register(in: toolRegistry)
+        CaptureScreenTool.register(in: toolRegistry)
+        CaptureRegionTool.register(in: toolRegistry)
+        SaveScreenshotTool.register(in: toolRegistry)
     }
     
     @Test("Scroll tool execution")
@@ -208,5 +211,140 @@ struct ScreenToolsTests {
                 return false
             } != nil)
         }
+    }
+    
+    @Test("Capture screen tool execution")
+    func captureScreenToolExecution() async throws {
+        let arguments: Value = .object([:])
+        
+        let result = try await toolRegistry.execute(name: "captureScreen", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first { 
+                if case .text(let text) = $0 {
+                    return text.contains("\"image\":") &&
+                           text.contains("data:image/jpeg;base64,")
+                }
+                return false
+            } != nil)
+        }
+    }
+    
+    @Test("Capture screen tool with low quality")
+    func captureScreenToolLowQuality() async throws {
+        let arguments: Value = .object([
+            "quality": .double(0.3)
+        ])
+        
+        let result = try await toolRegistry.execute(name: "captureScreen", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first { 
+                if case .text(let text) = $0 {
+                    return text.contains("\"image\":") &&
+                           text.contains("data:image/jpeg;base64,")
+                }
+                return false
+            } != nil)
+        }
+    }
+    
+    @Test("Capture region tool execution")
+    func captureRegionToolExecution() async throws {
+        let arguments: Value = .object([
+            "x": .int(100),
+            "y": .int(100),
+            "width": .int(200),
+            "height": .int(200)
+        ])
+        
+        let result = try await toolRegistry.execute(name: "captureRegion", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first { 
+                if case .text(let text) = $0 {
+                    return text.contains("\"image\":") &&
+                           text.contains("data:image/jpeg;base64,")
+                }
+                return false
+            } != nil)
+        }
+    }
+    
+    @Test("Capture region tool with missing parameters")
+    func captureRegionToolMissingParameters() async throws {
+        let arguments: Value = .object([
+            "x": .int(100),
+            "y": .int(100)
+            // Missing width and height
+        ])
+        
+        let result = try await toolRegistry.execute(name: "captureRegion", arguments: arguments)
+        #expect(result.isError == true)
+        #expect(result.content.first { 
+            if case .text(let text) = $0 {
+                return text.contains("Missing parameter: width")
+            }
+            return false
+        } != nil)
+    }
+    
+    @Test("Save screenshot tool execution")
+    func saveScreenshotToolExecution() async throws {
+        let arguments: Value = .object([
+            "filename": .string("test_screenshot.png")
+        ])
+        
+        let result = try await toolRegistry.execute(name: "saveScreenshot", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first { 
+                if case .text(let text) = $0 {
+                    return text.contains("\"success\": true") &&
+                           text.contains("\"filename\": \"test_screenshot.png\"")
+                }
+                return false
+            } != nil)
+        }
+    }
+    
+    @Test("Save screenshot tool with region")
+    func saveScreenshotToolWithRegion() async throws {
+        let arguments: Value = .object([
+            "filename": .string("test_region_screenshot.png"),
+            "x": .int(50),
+            "y": .int(50),
+            "width": .int(150),
+            "height": .int(150)
+        ])
+        
+        let result = try await toolRegistry.execute(name: "saveScreenshot", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first { 
+                if case .text(let text) = $0 {
+                    return text.contains("\"success\": true") &&
+                           text.contains("\"filename\": \"test_region_screenshot.png\"")
+                }
+                return false
+            } != nil)
+        }
+    }
+    
+    @Test("Save screenshot tool with missing filename")
+    func saveScreenshotToolMissingFilename() async throws {
+        let arguments: Value = .object([
+            "x": .int(50),
+            "y": .int(50)
+        ])
+        
+        let result = try await toolRegistry.execute(name: "saveScreenshot", arguments: arguments)
+        #expect(result.isError == true)
+        #expect(result.content.first { 
+            if case .text(let text) = $0 {
+                return text.contains("Missing parameter: filename")
+            }
+            return false
+        } != nil)
     }
 }
