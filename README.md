@@ -75,6 +75,40 @@ The server provides the following tools for controlling macOS:
   - `y`: number (y-coordinate) - accepts integers, doubles, or string representations
 - Returns the RGBA color values (0-255) of the pixel at the specified coordinates
 
+### 7. Capture Screen
+- Tool name: `captureScreen`
+- Input:
+  - `quality`: number (optional, 0.0-1.0, default: 0.1) - JPEG compression quality
+  - `scale`: number (optional, 0.1-1.0, default: 0.25) - Scale factor for image size
+- Captures the entire screen and returns it as a base64-encoded JPEG image
+- Default settings (10% quality, 25% scale) optimize for fast processing and prevent timeouts
+
+### 8. Capture Region
+- Tool name: `captureRegion`
+- Input:
+  - `x`: number (x-coordinate of the region)
+  - `y`: number (y-coordinate of the region)
+  - `width`: number (width of the region)
+  - `height`: number (height of the region)
+  - `quality`: number (optional, 0.0-1.0, default: 0.1) - JPEG compression quality
+  - `scale`: number (optional, 0.1-1.0, default: 0.25) - Scale factor for image size
+- Captures a specific screen region and returns it as a base64-encoded JPEG image
+- Default settings optimize for fast processing
+
+### 9. Save Screenshot
+- Tool name: `saveScreenshot`
+- Input:
+  - `filename`: string (path to save the screenshot)
+  - `x`: number (optional, x-coordinate of the region)
+  - `y`: number (optional, y-coordinate of the region)
+  - `width`: number (optional, width of the region)
+  - `height`: number (optional, height of the region)
+  - `quality`: number (optional, 0.0-1.0, default: 0.1) - JPEG compression quality
+  - `scale`: number (optional, 0.1-1.0, default: 0.25) - Scale factor for image size
+- Captures the screen or a region and saves it to a file
+- File format is determined by the filename extension (.jpg, .jpeg, .png)
+- Quality parameter only affects JPEG files
+
 ## Security Considerations
 
 This server requires full accessibility permissions in System Preferences to control your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.

@@ -30,5 +30,8 @@ class ToolRegistry {
         SendKeysTool.register(in: self)
         GetScreenSizeTool.register(in: self)
         GetPixelColorTool.register(in: self)
+        CaptureScreenTool.register(in: self)
+        CaptureRegionTool.register(in: self)
+        SaveScreenshotTool.register(in: self)
     }
 }
