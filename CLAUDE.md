@@ -34,28 +34,41 @@ swift package update
 
 ## Architecture Overview
 
-This project implements an MCP server that provides GUI automation capabilities for macOS through 4 tools:
+This project implements an MCP server that provides GUI automation capabilities for macOS through these tools:
 - `moveMouse`: Move cursor to x,y coordinates
 - `mouseClick`: Perform mouse clicks (left/right)
 - `scroll`: Scroll in any direction
 - `sendKeys`: Send keyboard shortcuts
+- `getScreenSize`: Get the display dimensions
+- `getPixelColor`: Get color of a pixel at x,y
+- `captureScreen`: Capture full screen as base64 PNG
+- `captureRegion`: Capture a region as base64 PNG
+- `saveScreenshot`: Save screenshot to file
 
 ### Key Components
 
-- **main.swift**: MCP server initialization and tool registration. All tool implementations are in this file.
-- **Server+Extension.swift**: Extends MCP Server with `waitForDisconnection()` to keep the server running.
+- **main.swift**: MCP server initialization and startup
+- **Server+Extension.swift**: Extends MCP Server with `waitForDisconnection()` to keep the server running
+- **ToolRegistry.swift**: Manages tool registration and execution
+- **Tools/**:
+  - **Mouse/**: Mouse control tools (moveMouse, mouseClick)
+  - **Screen/**: Screen capture and scroll tools
+  - **Keyboard/**: Keyboard input tools (sendKeys)
 
 ### Dependencies
 
 - **mcp-swift-sdk**: MCP protocol implementation
-- **SwiftAutoGUI** (v0.3.2): macOS automation library
+  - Repository: https://github.com/modelcontextprotocol/swift-sdk
+- **SwiftAutoGUI** (v0.10.0+): macOS automation library
+  - Repository: https://github.com/NakaokaRei/SwiftAutoGUI
+  - Documentation: https://nakaokarei.github.io/SwiftAutoGUI/documentation/swiftautogui/
 
 ## Important Notes
 
 - **Platform Requirements**: macOS 15.0+, Swift 6.0+
 - **Security**: Requires full accessibility permissions in System Preferences
 - **Communication**: Uses stdio transport (stdin/stdout)
-- **No test suite**: Currently no tests are implemented
+- **Test suite**: Unit tests for tools are in Tests/swift-mcp-guiTests/
 
 ## Development Workflow
 

@@ -109,6 +109,22 @@ The server provides the following tools for controlling macOS:
 - File format is determined by the filename extension (.jpg, .jpeg, .png)
 - Quality parameter only affects JPEG files
 
+### 10. Execute AppleScript
+- Tool name: `executeAppleScript`
+- Input:
+  - `script`: string (AppleScript code to execute)
+- Executes AppleScript code directly and returns the result
+- Returns "AppleScript Result: <result>" if the script returns a value
+- Returns "AppleScript executed successfully (no result returned)" if the script completes without returning a value
+
+### 11. Execute AppleScript File
+- Tool name: `executeAppleScriptFile`
+- Input:
+  - `path`: string (path to the AppleScript file)
+- Executes an AppleScript from a file and returns the result
+- Returns "AppleScript Result: <result>" if the script returns a value
+- Returns "AppleScript file executed successfully (no result returned): <path>" if the script completes without returning a value
+
 ## Security Considerations
 
 This server requires full accessibility permissions in System Preferences to control your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.

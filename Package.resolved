@@ -1,5 +1,5 @@
 {
-  "originHash" : "55091f4b3f48c15481aae1b8d36711f476dcd560123bf0c4607352c4d70f4000",
+  "originHash" : "563bfb558ed9a5796a0fc0c7e16b4e3fbdd257fb93f9798aae49083da222232b",
   "pins" : [
     {
       "identity" : "eventsource",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeatse/opencv-spm.git",
       "state" : {
-        "revision" : "9b5943c3095350dedfb2bebd276f05643b7045d1",
-        "version" : "4.11.0"
+        "revision" : "141d91be1f53990b4f5d63e1373afba539a7914d",
+        "version" : "4.12.0"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "3d8596ed08bd13520157f0355e35caed215ffbfa",
-        "version" : "1.6.3"
+        "revision" : "ce592ae52f982c847a4efc0dd881cc9eb32d29f2",
+        "version" : "1.6.4"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
-        "revision" : "61e4ca4b81b9e09e2ec863b00c340eb13497dac6",
-        "version" : "1.5.0"
+        "revision" : "41daa93a5d229e1548ec86ab527ce4783ca84dda",
+        "version" : "1.6.0"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI.git",
       "state" : {
-        "revision" : "fbd5fb783b017b6312d3d370943759a2d37626e2",
-        "version" : "0.6.0"
+        "revision" : "8c046eea5788e9bbb84091b0b0223c9dbd980f44",
+        "version" : "0.11.0"
       }
     }
   ],
