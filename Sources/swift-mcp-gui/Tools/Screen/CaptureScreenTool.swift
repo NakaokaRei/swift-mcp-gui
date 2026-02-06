@@ -7,17 +7,22 @@ struct CaptureScreenTool {
     static func register(in registry: ToolRegistry) {
         let tool = Tool(
             name: "captureScreen",
-            description: "Capture entire screen and return as base64 encoded image",
+            description: "Capture entire screen. Use output parameter to choose between file path (default, saves tokens) or inline image (for AI vision).",
             inputSchema: .object([
                 "type": .string("object"),
                 "properties": .object([
                     "quality": .object([
                         "type": .string("number"),
-                        "description": .string("JPEG compression quality (0.0-1.0, default: 0.1). Lower values reduce file size.")
+                        "description": .string("JPEG compression quality (0.0-1.0, default: 0.5). Lower values reduce file size.")
                     ]),
                     "scale": .object([
                         "type": .string("number"),
                         "description": .string("Scale factor for image size (0.1-1.0, default: 0.25). Lower values reduce resolution.")
+                    ]),
+                    "output": .object([
+                        "type": .string("string"),
+                        "description": .string("Output format: 'path' (default) returns file path, 'image' returns inline image for AI vision."),
+                        "enum": .array([.string("path"), .string("image")])
                     ])
                 ])
             ])
@@ -25,8 +30,9 @@ struct CaptureScreenTool {
         
         registry.registerTool(definition: tool) { arguments in
             let parser = ParameterParser(arguments: arguments)
-            let quality = (try? parser.parseDouble("quality")) ?? 0.1
+            let quality = (try? parser.parseDouble("quality")) ?? 0.5
             let scale = (try? parser.parseDouble("scale")) ?? 0.25
+            let output = (try? parser.parseString("output")) ?? "path"
             
             guard let screenshot = SwiftAutoGUI.screenshot() else {
                 return .init(content: [.text("Failed to capture screen")], isError: true)
@@ -69,9 +75,27 @@ struct CaptureScreenTool {
             guard let jpegData = bitmap.representation(using: .jpeg, properties: [.compressionFactor: quality]) else {
                 return .init(content: [.text("Failed to convert screenshot to JPEG")], isError: true)
             }
-            
-            let base64String = jpegData.base64EncodedString()
-            return .init(content: [.text("{\"image\": \"data:image/jpeg;base64,\(base64String)\"}")], isError: false)
+
+            // Generate unique filename with timestamp
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+            let timestamp = dateFormatter.string(from: Date())
+            let filename = "screenshot_\(timestamp)_\(UUID().uuidString.prefix(8)).jpg"
+            let filePath = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+
+            if output == "image" {
+                let base64String = jpegData.base64EncodedString()
+                return .init(content: [
+                    .image(data: base64String, mimeType: "image/jpeg", metadata: nil)
+                ], isError: false)
+            } else {
+                do {
+                    try jpegData.write(to: filePath)
+                } catch {
+                    return .init(content: [.text("Failed to save screenshot: \(error.localizedDescription)")], isError: true)
+                }
+                return .init(content: [.text("{\"path\": \"\(filePath.path)\", \"width\": \(scaledWidth), \"height\": \(scaledHeight)}")], isError: false)
+            }
         }
     }
 }

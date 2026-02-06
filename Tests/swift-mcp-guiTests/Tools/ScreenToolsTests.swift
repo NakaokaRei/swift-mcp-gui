@@ -220,35 +220,53 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "captureScreen", arguments: arguments)
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
-            #expect(result.content.first { 
+            #expect(result.content.first {
                 if case .text(let text) = $0 {
-                    return text.contains("\"image\":") &&
-                           text.contains("data:image/jpeg;base64,")
+                    return text.contains("\"path\":") &&
+                           text.contains("\"width\":") &&
+                           text.contains("\"height\":")
                 }
                 return false
             } != nil)
         }
     }
-    
+
     @Test("Capture screen tool with low quality")
     func captureScreenToolLowQuality() async throws {
         let arguments: Value = .object([
             "quality": .double(0.3)
         ])
-        
+
         let result = try await toolRegistry.execute(name: "captureScreen", arguments: arguments)
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
-            #expect(result.content.first { 
+            #expect(result.content.first {
                 if case .text(let text) = $0 {
-                    return text.contains("\"image\":") &&
-                           text.contains("data:image/jpeg;base64,")
+                    return text.contains("\"path\":") &&
+                           text.contains("\"width\":") &&
+                           text.contains("\"height\":")
                 }
                 return false
             } != nil)
         }
     }
-    
+
+    @Test("Capture screen tool with image output")
+    func captureScreenToolImageOutput() async throws {
+        let arguments: Value = .object([
+            "output": .string("image")
+        ])
+
+        let result = try await toolRegistry.execute(name: "captureScreen", arguments: arguments)
+        // This might succeed or fail depending on screen access permissions
+        if result.isError != true {
+            #expect(result.content.first {
+                if case .image = $0 { return true }
+                return false
+            } != nil)
+        }
+    }
+
     @Test("Capture region tool execution")
     func captureRegionToolExecution() async throws {
         let arguments: Value = .object([
@@ -257,14 +275,15 @@ struct ScreenToolsTests {
             "width": .int(200),
             "height": .int(200)
         ])
-        
+
         let result = try await toolRegistry.execute(name: "captureRegion", arguments: arguments)
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
-            #expect(result.content.first { 
+            #expect(result.content.first {
                 if case .text(let text) = $0 {
-                    return text.contains("\"image\":") &&
-                           text.contains("data:image/jpeg;base64,")
+                    return text.contains("\"path\":") &&
+                           text.contains("\"width\":") &&
+                           text.contains("\"height\":")
                 }
                 return false
             } != nil)
