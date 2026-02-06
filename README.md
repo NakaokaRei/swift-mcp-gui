@@ -78,10 +78,11 @@ The server provides the following tools for controlling macOS:
 ### 7. Capture Screen
 - Tool name: `captureScreen`
 - Input:
-  - `quality`: number (optional, 0.0-1.0, default: 0.1) - JPEG compression quality
+  - `quality`: number (optional, 0.0-1.0, default: 0.5) - JPEG compression quality
   - `scale`: number (optional, 0.1-1.0, default: 0.25) - Scale factor for image size
-- Captures the entire screen and returns it as a base64-encoded JPEG image
-- Default settings (10% quality, 25% scale) optimize for fast processing and prevent timeouts
+  - `output`: string (optional, "path" or "image", default: "path") - Output format
+- `output: "path"` (default): Saves to a temporary file and returns the file path with dimensions. Reduces token consumption.
+- `output: "image"`: Returns inline image content for AI vision (e.g. Claude)
 
 ### 8. Capture Region
 - Tool name: `captureRegion`
@@ -90,10 +91,11 @@ The server provides the following tools for controlling macOS:
   - `y`: number (y-coordinate of the region)
   - `width`: number (width of the region)
   - `height`: number (height of the region)
-  - `quality`: number (optional, 0.0-1.0, default: 0.1) - JPEG compression quality
+  - `quality`: number (optional, 0.0-1.0, default: 0.5) - JPEG compression quality
   - `scale`: number (optional, 0.1-1.0, default: 0.25) - Scale factor for image size
-- Captures a specific screen region and returns it as a base64-encoded JPEG image
-- Default settings optimize for fast processing
+  - `output`: string (optional, "path" or "image", default: "path") - Output format
+- `output: "path"` (default): Saves to a temporary file and returns the file path with dimensions. Reduces token consumption.
+- `output: "image"`: Returns inline image content for AI vision (e.g. Claude)
 
 ### 9. Save Screenshot
 - Tool name: `saveScreenshot`
