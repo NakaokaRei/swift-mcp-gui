@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-26
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     
     - name: Show Swift version
       run: swift --version
@@ -28,7 +28,7 @@ jobs:
     runs-on: macos-26
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     
     - name: Show Swift version
       run: swift --version
