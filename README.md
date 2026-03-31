@@ -33,10 +33,6 @@ swift package experimental-install
 
 ```
 
-## Hosted deployment
-
-A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/nakaokarei-swift-mcp-gui).
-
 ## Available Tools
 
 The server provides the following tools for controlling macOS:
