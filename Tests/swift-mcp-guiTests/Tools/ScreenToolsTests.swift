@@ -26,7 +26,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Scrolled up by 3 clicks"
             }
             return false
@@ -45,7 +45,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Scrolled \(direction) by 2 clicks"
             }
             return false
@@ -62,7 +62,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Invalid scroll direction")
             }
             return false
@@ -78,7 +78,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: direction")
             }
             return false
@@ -94,7 +94,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: clicks")
             }
             return false
@@ -111,7 +111,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "scroll", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Scrolled down by 5 clicks"
             }
             return false
@@ -125,7 +125,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "getScreenSize", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Screen size:") && 
                        text.contains("width") && 
                        text.contains("height")
@@ -146,7 +146,7 @@ struct ScreenToolsTests {
         // In CI/CD environments, it might fail due to lack of screen access
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("Pixel color at (100, 200):") &&
                            text.contains("red") &&
                            text.contains("green") &&
@@ -168,7 +168,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "getPixelColor", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: y")
             }
             return false
@@ -186,7 +186,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("Pixel color at (50, 100):")
                 }
                 return false
@@ -205,7 +205,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("Pixel color at (50, 100):")
                 }
                 return false
@@ -221,7 +221,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
             #expect(result.content.first {
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("\"path\":") &&
                            text.contains("\"width\":") &&
                            text.contains("\"height\":")
@@ -241,7 +241,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
             #expect(result.content.first {
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("\"path\":") &&
                            text.contains("\"width\":") &&
                            text.contains("\"height\":")
@@ -280,7 +280,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
             #expect(result.content.first {
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("\"path\":") &&
                            text.contains("\"width\":") &&
                            text.contains("\"height\":")
@@ -301,7 +301,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "captureRegion", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: width")
             }
             return false
@@ -318,7 +318,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("\"success\": true") &&
                            text.contains("\"filename\": \"test_screenshot.png\"")
                 }
@@ -341,7 +341,7 @@ struct ScreenToolsTests {
         // This might succeed or fail depending on screen access permissions
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("\"success\": true") &&
                            text.contains("\"filename\": \"test_region_screenshot.png\"")
                 }
@@ -360,7 +360,7 @@ struct ScreenToolsTests {
         let result = try await toolRegistry.execute(name: "saveScreenshot", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: filename")
             }
             return false

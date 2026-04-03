@@ -34,7 +34,7 @@ struct CaptureScreenTool {
             let scale = (try? parser.parseDouble("scale")) ?? 0.25
             let output = (try? parser.parseString("output")) ?? "path"
             
-            guard let screenshot = SwiftAutoGUI.screenshot() else {
+            guard let screenshot = try? await SwiftAutoGUI.screenshot() else {
                 return .init(content: [.text("Failed to capture screen")], isError: true)
             }
             

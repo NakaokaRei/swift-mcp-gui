@@ -22,7 +22,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "moveMouse", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Mouse moved to (100.0, 200.0)"
             }
             return false
@@ -39,7 +39,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "moveMouse", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Mouse moved to (100.5, 200.7)"
             }
             return false
@@ -56,7 +56,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "moveMouse", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Mouse moved to (100.0, 200.0)"
             }
             return false
@@ -73,7 +73,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "moveMouse", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: y")
             }
             return false
@@ -89,7 +89,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "mouseClick", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "left click performed"
             }
             return false
@@ -105,7 +105,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "mouseClick", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "right click performed"
             }
             return false
@@ -121,7 +121,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "mouseClick", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Invalid button type")
             }
             return false
@@ -135,7 +135,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "unknownTool", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Unknown tool")
             }
             return false
@@ -153,7 +153,7 @@ struct MouseToolsTests {
         let result = try await toolRegistry.execute(name: "mouseClick", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "\(expected) click performed"
             }
             return false

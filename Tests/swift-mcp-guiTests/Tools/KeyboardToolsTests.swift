@@ -20,7 +20,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: cmd+c"
             }
             return false
@@ -36,7 +36,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: space"
             }
             return false
@@ -52,7 +52,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: cmd+shift+a"
             }
             return false
@@ -77,7 +77,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: \(displayName)"
             }
             return false
@@ -93,7 +93,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("No keys specified")
             }
             return false
@@ -107,7 +107,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: keys")
             }
             return false
@@ -123,7 +123,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Unknown key: invalid_key")
             }
             return false
@@ -139,7 +139,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Invalid parameter keys")
             }
             return false
@@ -157,7 +157,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: \(key)"
             }
             return false
@@ -175,7 +175,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: \(key)"
             }
             return false
@@ -193,7 +193,7 @@ struct KeyboardToolsTests {
         let result = try await toolRegistry.execute(name: "sendKeys", arguments: arguments)
         #expect(result.isError == false)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text == "Sent key combination: \(key)"
             }
             return false

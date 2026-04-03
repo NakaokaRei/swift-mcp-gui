@@ -62,9 +62,9 @@ struct SaveScreenshotTool {
                 let screenshot: NSImage?
                 if let x = x, let y = y, let width = width, let height = height {
                     let region = CGRect(x: x, y: y, width: width, height: height)
-                    screenshot = SwiftAutoGUI.screenshot(region: region)
+                    screenshot = try? await SwiftAutoGUI.screenshot(region: region)
                 } else {
-                    screenshot = SwiftAutoGUI.screenshot()
+                    screenshot = try? await SwiftAutoGUI.screenshot()
                 }
                 
                 guard let image = screenshot else {

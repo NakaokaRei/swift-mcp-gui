@@ -24,7 +24,7 @@ struct GetPixelColorTool {
                 let x = try parser.parseInt("x")
                 let y = try parser.parseInt("y")
                 
-                guard let color = SwiftAutoGUI.pixel(x: x, y: y) else {
+                guard let color = try? await SwiftAutoGUI.pixel(x: x, y: y) else {
                     return .init(content: [.text("Failed to get pixel color at (\(x), \(y))")], isError: true)
                 }
                 
