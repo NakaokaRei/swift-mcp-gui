@@ -78,6 +78,28 @@ struct ParameterParser {
         return str
     }
     
+    func parseBool(_ key: String) throws -> Bool {
+        guard case .object(let dict) = arguments,
+              let value = dict[key] else {
+            throw ParameterError.missingParameter(key)
+        }
+
+        if case .bool(let b) = value {
+            return b
+        }
+
+        if case .string(let str) = value {
+            switch str.lowercased() {
+            case "true": return true
+            case "false": return false
+            default:
+                throw ParameterError.invalidType(key: key, expected: "boolean", received: str)
+            }
+        }
+
+        throw ParameterError.invalidType(key: key, expected: "boolean", received: String(describing: value))
+    }
+
     func parseStringArray(_ key: String) throws -> [String] {
         // Check if arguments is an object
         guard case .object(let dict) = arguments,

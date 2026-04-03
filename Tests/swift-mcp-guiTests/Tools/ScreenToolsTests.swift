@@ -14,6 +14,7 @@ struct ScreenToolsTests {
         CaptureScreenTool.register(in: toolRegistry)
         CaptureRegionTool.register(in: toolRegistry)
         SaveScreenshotTool.register(in: toolRegistry)
+        GetScreenContextTool.register(in: toolRegistry)
     }
     
     @Test("Scroll tool execution")
@@ -350,6 +351,57 @@ struct ScreenToolsTests {
         }
     }
     
+    @Test("Get screen context tool with default parameters")
+    func getScreenContextToolDefault() async throws {
+        let arguments: Value = .object([:])
+
+        let result = try await toolRegistry.execute(name: "getScreenContext", arguments: arguments)
+        if result.isError != true {
+            #expect(result.content.first {
+                if case .text(let text, _, _) = $0 {
+                    return text.contains("Visible windows:")
+                }
+                return false
+            } != nil)
+        }
+    }
+
+    @Test("Get screen context tool with JSON format")
+    func getScreenContextToolJSON() async throws {
+        let arguments: Value = .object([
+            "format": .string("json")
+        ])
+
+        let result = try await toolRegistry.execute(name: "getScreenContext", arguments: arguments)
+        if result.isError != true {
+            #expect(result.content.first {
+                if case .text(let text, _, _) = $0 {
+                    return text.contains("\"visibleWindows\"")
+                }
+                return false
+            } != nil)
+        }
+    }
+
+    @Test("Get screen context tool with custom options")
+    func getScreenContextToolCustomOptions() async throws {
+        let arguments: Value = .object([
+            "maxDepth": .int(2),
+            "maxNodes": .int(50),
+            "includeAXTree": .bool(false)
+        ])
+
+        let result = try await toolRegistry.execute(name: "getScreenContext", arguments: arguments)
+        if result.isError != true {
+            #expect(result.content.first {
+                if case .text(let text, _, _) = $0 {
+                    return !text.contains("Focused window AX tree:")
+                }
+                return false
+            } != nil)
+        }
+    }
+
     @Test("Save screenshot tool with missing filename")
     func saveScreenshotToolMissingFilename() async throws {
         let arguments: Value = .object([

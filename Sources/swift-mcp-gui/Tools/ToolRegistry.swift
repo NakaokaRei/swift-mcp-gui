@@ -35,5 +35,6 @@ class ToolRegistry {
         SaveScreenshotTool.register(in: self)
         ExecuteAppleScriptTool.register(in: self)
         ExecuteAppleScriptFileTool.register(in: self)
+        GetScreenContextTool.register(in: self)
     }
 }
