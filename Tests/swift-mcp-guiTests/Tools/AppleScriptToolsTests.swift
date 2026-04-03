@@ -47,7 +47,7 @@ struct AppleScriptToolsTests {
         
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("AppleScript Result:") || text.contains("AppleScript executed successfully")
                 }
                 return false
@@ -69,7 +69,7 @@ struct AppleScriptToolsTests {
         
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     // The result should contain "4" or similar
                     return text.contains("AppleScript Result:") || text.contains("no result returned")
                 }
@@ -90,7 +90,7 @@ struct AppleScriptToolsTests {
         // Note: This test might succeed or fail depending on AppleScript permissions
         if result.isError != true {
             #expect(result.content.first { 
-                if case .text(let text) = $0 {
+                if case .text(let text, _, _) = $0 {
                     return text.contains("no result returned") || text.contains("AppleScript Result:")
                 }
                 return false
@@ -105,7 +105,7 @@ struct AppleScriptToolsTests {
         let result = try await toolRegistry.execute(name: "executeAppleScript", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: script")
             }
             return false
@@ -121,7 +121,7 @@ struct AppleScriptToolsTests {
         let result = try await toolRegistry.execute(name: "executeAppleScript", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Invalid parameter script: expected string")
             }
             return false
@@ -135,7 +135,7 @@ struct AppleScriptToolsTests {
         let result = try await toolRegistry.execute(name: "executeAppleScriptFile", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Missing parameter: path")
             }
             return false
@@ -151,7 +151,7 @@ struct AppleScriptToolsTests {
         let result = try await toolRegistry.execute(name: "executeAppleScriptFile", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Invalid parameter path: expected string")
             }
             return false
@@ -167,7 +167,7 @@ struct AppleScriptToolsTests {
         let result = try await toolRegistry.execute(name: "executeAppleScriptFile", arguments: arguments)
         #expect(result.isError == true)
         #expect(result.content.first { 
-            if case .text(let text) = $0 {
+            if case .text(let text, _, _) = $0 {
                 return text.contains("Failed to execute AppleScript file")
             }
             return false

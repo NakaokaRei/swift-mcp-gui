@@ -59,7 +59,7 @@ struct CaptureRegionTool {
             
             let region = CGRect(x: x, y: y, width: width, height: height)
             
-            guard let screenshot = SwiftAutoGUI.screenshot(region: region) else {
+            guard let screenshot = try? await SwiftAutoGUI.screenshot(region: region) else {
                 return .init(content: [.text("Failed to capture screen region")], isError: true)
             }
             
