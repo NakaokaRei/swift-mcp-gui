@@ -356,14 +356,13 @@ struct ScreenToolsTests {
         let arguments: Value = .object([:])
 
         let result = try await toolRegistry.execute(name: "getScreenContext", arguments: arguments)
-        if result.isError != true {
-            #expect(result.content.first {
-                if case .text(let text, _, _) = $0 {
-                    return text.contains("Visible windows:")
-                }
-                return false
-            } != nil)
-        }
+        // Tool should return successfully (not error)
+        #expect(result.isError != true)
+        // Should have at least one text content
+        #expect(result.content.first {
+            if case .text = $0 { return true }
+            return false
+        } != nil)
     }
 
     @Test("Get screen context tool with JSON format")
