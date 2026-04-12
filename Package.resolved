@@ -1,5 +1,5 @@
 {
-  "originHash" : "9ae1cb628abd1168dd99b40eac1fab463eaa900da908de730e22fe66dde0569b",
+  "originHash" : "fb40e7a9f31609c38299ed5d58294d0a50b705948201c56e3d71f036f2aff9f5",
   "pins" : [
     {
       "identity" : "eventsource",
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI.git",
       "state" : {
-        "revision" : "dde59283d270356d04bf17142e0da9332843b8de",
-        "version" : "0.19.0"
+        "revision" : "d83fb0a68e849048753353678788f96aad4a16bc",
+        "version" : "0.20.0"
       }
     }
   ],
