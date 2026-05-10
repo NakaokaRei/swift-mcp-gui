@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI.git",
       "state" : {
-        "revision" : "d83fb0a68e849048753353678788f96aad4a16bc",
-        "version" : "0.20.0"
+        "revision" : "c9d71b73e407286eb894f0cf1202f3937dca2999",
+        "version" : "0.21.0"
       }
     }
   ],
