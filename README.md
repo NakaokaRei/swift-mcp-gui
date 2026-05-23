@@ -10,6 +10,31 @@ A Model Context Protocol (MCP) server that allows controlling macOS through [Swi
 
 ## Installation
 
+### Homebrew (recommended)
+
+Install via the [NakaokaRei/tap](https://github.com/NakaokaRei/homebrew-tap):
+
+```bash
+brew install NakaokaRei/tap/swift-mcp-gui
+```
+
+Then point your MCP client at the installed binary:
+
+```json
+{
+  "mcpServers": {
+    "swift-mcp-gui": {
+      "command": "/opt/homebrew/bin/swift-mcp-gui"
+    }
+  }
+}
+```
+
+On Intel Macs the path is `/usr/local/bin/swift-mcp-gui`. To upgrade later, run
+`brew upgrade swift-mcp-gui`.
+
+### From source
+
 1. Clone this repository:
 ```bash
 git clone https://github.com/NakaokaRei/swift-mcp-gui.git
