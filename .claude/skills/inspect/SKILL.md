@@ -1,6 +1,6 @@
 ---
 name: inspect
-description: Launch MCP Inspector to interactively test swift-mcp-gui tools via browser
+description: Launch MCP Inspector to interactively test swift-mcp-gui tools in a browser
 allowed-tools: Bash
 disable-model-invocation: true
 ---
@@ -8,6 +8,10 @@ disable-model-invocation: true
 # MCP Inspector
 
 Launch the MCP Inspector to interactively test the swift-mcp-gui MCP server in a browser.
+
+This skill is shared by Claude Code and Codex. Use the shell command tool
+available in the current agent runtime (for example, Bash in Claude Code or the
+terminal/exec command tool in Codex).
 
 ## Steps
 
