@@ -156,6 +156,16 @@ The server provides the following tools for controlling macOS:
 
 This server requires full accessibility permissions in System Preferences to control your mouse and keyboard. Be careful when running it and only connect trusted MCP clients.
 
+## Star History
+
+<a href="https://www.star-history.com/?repos=NakaokaRei%2Fswift-mcp-gui&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=NakaokaRei/swift-mcp-gui&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=NakaokaRei/swift-mcp-gui&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=NakaokaRei/swift-mcp-gui&type=date&legend=top-left" />
+ </picture>
+</a>
+
 ## License
 
 MIT License 
