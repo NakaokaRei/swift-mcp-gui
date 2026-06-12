@@ -25,7 +25,10 @@ struct MoveMouseTool {
                 let x = try parser.parseDouble("x")
                 let y = try parser.parseDouble("y")
                 
-                SwiftAutoGUI.move(to: CGPoint(x: x, y: y))
+                await SwiftAutoGUI.move(
+                    to: CGPoint(x: x, y: y),
+                    duration: 1.0 / 60.0
+                )
                 return .init(content: [.text("Mouse moved to (\(x), \(y))")], isError: false)
             } catch {
                 return .init(content: [.text(error.localizedDescription)], isError: true)
