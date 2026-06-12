@@ -67,7 +67,7 @@ struct SendKeysTool {
                     return .init(content: [.text("No keys specified")], isError: true)
                 }
                 
-                SwiftAutoGUI.sendKeyShortcut(keyCollection)
+                await SwiftAutoGUI.sendKeyShortcut(keyCollection)
                 return .init(content: [.text("Sent key combination: \(keysArray.joined(separator: "+"))")], isError: false)
             } catch {
                 return .init(content: [.text(error.localizedDescription)], isError: true)

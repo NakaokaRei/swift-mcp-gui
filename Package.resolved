@@ -11,15 +11,6 @@
       }
     },
     {
-      "identity" : "opencv-spm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/yeatse/opencv-spm.git",
-      "state" : {
-        "revision" : "151a5374946aa867ff3892e0d69fd85e1ecdaf2e",
-        "version" : "4.13.0"
-      }
-    },
-    {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
@@ -87,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI.git",
       "state" : {
-        "revision" : "51cf8aab581162dde2343bee87ed0854886d9ff1",
-        "version" : "0.22.0"
+        "revision" : "4c169293ce3ae18fee877f5ffc70edd89b5f5a5c",
+        "version" : "0.24.0"
       }
     }
   ],
