@@ -2,7 +2,7 @@ import Testing
 import MCP
 @testable import swift_mcp_gui
 
-@Suite("Mouse Tools Tests")
+@Suite("Mouse Tools Tests", .serialized)
 struct MouseToolsTests {
     let toolRegistry: ToolRegistry
     
@@ -12,7 +12,10 @@ struct MouseToolsTests {
         MouseClickTool.register(in: toolRegistry)
     }
     
-    @Test("Move mouse tool execution")
+    @Test(
+        "Move mouse tool execution",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func moveMouseToolExecution() async throws {
         let arguments: Value = .object([
             "x": .int(100),
@@ -29,7 +32,10 @@ struct MouseToolsTests {
         } != nil)
     }
     
-    @Test("Move mouse tool with double values")
+    @Test(
+        "Move mouse tool with double values",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func moveMouseToolWithDoubleValues() async throws {
         let arguments: Value = .object([
             "x": .double(100.5),
@@ -46,7 +52,10 @@ struct MouseToolsTests {
         } != nil)
     }
     
-    @Test("Move mouse tool with string values")
+    @Test(
+        "Move mouse tool with string values",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func moveMouseToolWithStringValues() async throws {
         let arguments: Value = .object([
             "x": .string("100"),
@@ -80,7 +89,10 @@ struct MouseToolsTests {
         } != nil)
     }
     
-    @Test("Mouse click tool execution")
+    @Test(
+        "Mouse click tool execution",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func mouseClickToolExecution() async throws {
         let arguments: Value = .object([
             "button": .string("left")
@@ -96,7 +108,10 @@ struct MouseToolsTests {
         } != nil)
     }
     
-    @Test("Mouse click tool right click")
+    @Test(
+        "Mouse click tool right click",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func mouseClickToolRightClick() async throws {
         let arguments: Value = .object([
             "button": .string("right")
@@ -142,9 +157,13 @@ struct MouseToolsTests {
         } != nil)
     }
     
-    @Test("Mouse click tool with case variations", arguments: [
-        ("Left", "Left"), ("LEFT", "LEFT"), ("Right", "Right"), ("RIGHT", "RIGHT")
-    ])
+    @Test(
+        "Mouse click tool with case variations",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
+            ("Left", "Left"), ("LEFT", "LEFT"), ("Right", "Right"), ("RIGHT", "RIGHT")
+        ]
+    )
     func mouseClickToolCaseVariations(input: String, expected: String) async throws {
         let arguments: Value = .object([
             "button": .string(input)

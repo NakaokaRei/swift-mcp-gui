@@ -2,7 +2,7 @@ import Testing
 import MCP
 @testable import swift_mcp_gui
 
-@Suite("Keyboard Tools Tests")
+@Suite("Keyboard Tools Tests", .serialized)
 struct KeyboardToolsTests {
     let toolRegistry: ToolRegistry
     
@@ -11,7 +11,10 @@ struct KeyboardToolsTests {
         SendKeysTool.register(in: toolRegistry)
     }
     
-    @Test("Send keys tool execution with command+c")
+    @Test(
+        "Send keys tool execution with command+c",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func sendKeysToolExecution() async throws {
         let arguments: Value = .object([
             "keys": .array([.string("cmd"), .string("c")])
@@ -27,7 +30,10 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with single key")
+    @Test(
+        "Send keys tool with single key",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func sendKeysToolSingleKey() async throws {
         let arguments: Value = .object([
             "keys": .array([.string("space")])
@@ -43,7 +49,10 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with complex combination")
+    @Test(
+        "Send keys tool with complex combination",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func sendKeysToolComplexCombination() async throws {
         let arguments: Value = .object([
             "keys": .array([.string("cmd"), .string("shift"), .string("a")])
@@ -59,7 +68,10 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with alternative key names", arguments: [
+    @Test(
+        "Send keys tool with alternative key names",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
         (["command"], "command"),
         (["ctrl"], "ctrl"),
         (["opt"], "opt"),
@@ -68,7 +80,8 @@ struct KeyboardToolsTests {
         (["enter"], "enter"),
         (["esc"], "esc"),
         (["del"], "del")
-    ])
+        ]
+    )
     func sendKeysToolAlternativeNames(keys: [String], displayName: String) async throws {
         let arguments: Value = .object([
             "keys": .array(keys.map { .string($0) })
@@ -146,9 +159,13 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with number keys", arguments: [
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-    ])
+    @Test(
+        "Send keys tool with number keys",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+        ]
+    )
     func sendKeysToolNumberKeys(key: String) async throws {
         let arguments: Value = .object([
             "keys": .array([.string(key)])
@@ -164,9 +181,13 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with letter keys", arguments: [
-        "a", "c", "v", "x", "z"
-    ])
+    @Test(
+        "Send keys tool with letter keys",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
+            "a", "c", "v", "x", "z"
+        ]
+    )
     func sendKeysToolLetterKeys(key: String) async throws {
         let arguments: Value = .object([
             "keys": .array([.string(key)])
@@ -182,9 +203,13 @@ struct KeyboardToolsTests {
         } != nil)
     }
     
-    @Test("Send keys tool with arrow keys", arguments: [
-        "up", "down", "left", "right"
-    ])
+    @Test(
+        "Send keys tool with arrow keys",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
+            "up", "down", "left", "right"
+        ]
+    )
     func sendKeysToolArrowKeys(key: String) async throws {
         let arguments: Value = .object([
             "keys": .array([.string(key)])
