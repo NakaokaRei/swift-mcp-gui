@@ -1,8 +1,9 @@
 import Testing
 import MCP
+import Foundation
 @testable import swift_mcp_gui
 
-@Suite("Screen Tools Tests")
+@Suite("Screen Tools Tests", .serialized)
 struct ScreenToolsTests {
     let toolRegistry: ToolRegistry
     
@@ -17,7 +18,10 @@ struct ScreenToolsTests {
         GetScreenContextTool.register(in: toolRegistry)
     }
     
-    @Test("Scroll tool execution")
+    @Test(
+        "Scroll tool execution",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func scrollToolExecution() async throws {
         let arguments: Value = .object([
             "direction": .string("up"),
@@ -34,9 +38,13 @@ struct ScreenToolsTests {
         } != nil)
     }
     
-    @Test("Scroll tool all directions", arguments: [
-        "up", "down", "left", "right"
-    ])
+    @Test(
+        "Scroll tool all directions",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled),
+        arguments: [
+            "up", "down", "left", "right"
+        ]
+    )
     func scrollToolAllDirections(direction: String) async throws {
         let arguments: Value = .object([
             "direction": .string(direction),
@@ -102,7 +110,10 @@ struct ScreenToolsTests {
         } != nil)
     }
     
-    @Test("Scroll tool with string clicks value")
+    @Test(
+        "Scroll tool with string clicks value",
+        .enabled(if: GUITestConfiguration.liveInputTestsEnabled)
+    )
     func scrollToolStringClicks() async throws {
         let arguments: Value = .object([
             "direction": .string("down"),
@@ -135,7 +146,10 @@ struct ScreenToolsTests {
         } != nil)
     }
     
-    @Test("Get pixel color tool execution")
+    @Test(
+        "Get pixel color tool execution",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getPixelColorToolExecution() async throws {
         let arguments: Value = .object([
             "x": .int(100),
@@ -176,7 +190,10 @@ struct ScreenToolsTests {
         } != nil)
     }
     
-    @Test("Get pixel color tool with string parameters")
+    @Test(
+        "Get pixel color tool with string parameters",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getPixelColorToolStringParameters() async throws {
         let arguments: Value = .object([
             "x": .string("50"),
@@ -195,7 +212,10 @@ struct ScreenToolsTests {
         }
     }
     
-    @Test("Get pixel color tool with double parameters")
+    @Test(
+        "Get pixel color tool with double parameters",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getPixelColorToolDoubleParameters() async throws {
         let arguments: Value = .object([
             "x": .double(50.5),
@@ -214,7 +234,10 @@ struct ScreenToolsTests {
         }
     }
     
-    @Test("Capture screen tool execution")
+    @Test(
+        "Capture screen tool execution",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func captureScreenToolExecution() async throws {
         let arguments: Value = .object([:])
         
@@ -232,7 +255,10 @@ struct ScreenToolsTests {
         }
     }
 
-    @Test("Capture screen tool with low quality")
+    @Test(
+        "Capture screen tool with low quality",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func captureScreenToolLowQuality() async throws {
         let arguments: Value = .object([
             "quality": .double(0.3)
@@ -252,7 +278,10 @@ struct ScreenToolsTests {
         }
     }
 
-    @Test("Capture screen tool with image output")
+    @Test(
+        "Capture screen tool with image output",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func captureScreenToolImageOutput() async throws {
         let arguments: Value = .object([
             "output": .string("image")
@@ -268,7 +297,10 @@ struct ScreenToolsTests {
         }
     }
 
-    @Test("Capture region tool execution")
+    @Test(
+        "Capture region tool execution",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func captureRegionToolExecution() async throws {
         let arguments: Value = .object([
             "x": .int(100),
@@ -309,10 +341,16 @@ struct ScreenToolsTests {
         } != nil)
     }
     
-    @Test("Save screenshot tool execution")
+    @Test(
+        "Save screenshot tool execution",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func saveScreenshotToolExecution() async throws {
+        let filename = GUITestConfiguration.temporaryFilename("test_screenshot.png")
+        defer { try? FileManager.default.removeItem(atPath: filename) }
+
         let arguments: Value = .object([
-            "filename": .string("test_screenshot.png")
+            "filename": .string(filename)
         ])
         
         let result = try await toolRegistry.execute(name: "saveScreenshot", arguments: arguments)
@@ -321,17 +359,23 @@ struct ScreenToolsTests {
             #expect(result.content.first { 
                 if case .text(let text, _, _) = $0 {
                     return text.contains("\"success\": true") &&
-                           text.contains("\"filename\": \"test_screenshot.png\"")
+                           text.contains("\"filename\": \"\(filename)\"")
                 }
                 return false
             } != nil)
         }
     }
     
-    @Test("Save screenshot tool with region")
+    @Test(
+        "Save screenshot tool with region",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func saveScreenshotToolWithRegion() async throws {
+        let filename = GUITestConfiguration.temporaryFilename("test_region_screenshot.png")
+        defer { try? FileManager.default.removeItem(atPath: filename) }
+
         let arguments: Value = .object([
-            "filename": .string("test_region_screenshot.png"),
+            "filename": .string(filename),
             "x": .int(50),
             "y": .int(50),
             "width": .int(150),
@@ -344,14 +388,17 @@ struct ScreenToolsTests {
             #expect(result.content.first { 
                 if case .text(let text, _, _) = $0 {
                     return text.contains("\"success\": true") &&
-                           text.contains("\"filename\": \"test_region_screenshot.png\"")
+                           text.contains("\"filename\": \"\(filename)\"")
                 }
                 return false
             } != nil)
         }
     }
     
-    @Test("Get screen context tool with default parameters")
+    @Test(
+        "Get screen context tool with default parameters",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getScreenContextToolDefault() async throws {
         let arguments: Value = .object([:])
 
@@ -365,7 +412,10 @@ struct ScreenToolsTests {
         } != nil)
     }
 
-    @Test("Get screen context tool with JSON format")
+    @Test(
+        "Get screen context tool with JSON format",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getScreenContextToolJSON() async throws {
         let arguments: Value = .object([
             "format": .string("json")
@@ -382,7 +432,10 @@ struct ScreenToolsTests {
         }
     }
 
-    @Test("Get screen context tool with custom options")
+    @Test(
+        "Get screen context tool with custom options",
+        .enabled(if: GUITestConfiguration.liveScreenTestsEnabled)
+    )
     func getScreenContextToolCustomOptions() async throws {
         let arguments: Value = .object([
             "maxDepth": .int(2),
