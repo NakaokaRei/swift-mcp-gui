@@ -59,13 +59,13 @@ This project implements an MCP server that provides GUI automation capabilities 
 
 - **mcp-swift-sdk**: MCP protocol implementation
   - Repository: https://github.com/modelcontextprotocol/swift-sdk
-- **SwiftAutoGUI** (v0.10.0+): macOS automation library
+- **SwiftAutoGUI** (v1.0.0+): macOS automation library
   - Repository: https://github.com/NakaokaRei/SwiftAutoGUI
   - Documentation: https://nakaokarei.github.io/SwiftAutoGUI/documentation/swiftautogui/
 
 ## Important Notes
 
-- **Platform Requirements**: macOS 15.0+, Swift 6.0+
+- **Platform Requirements**: macOS 27.0+, Swift 6.2+, Xcode 27.0+
 - **Security**: Requires full accessibility permissions in System Preferences
 - **Communication**: Uses stdio transport (stdin/stdout)
 - **Test suite**: Unit tests for tools are in Tests/swift-mcp-guiTests/

@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "swift-mcp-gui",
     platforms: [
-        .macOS(.v26)
+        .macOS("27.0")
     ],
     dependencies: [
         .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.12.0"),

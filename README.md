@@ -4,9 +4,9 @@ A Model Context Protocol (MCP) server that allows controlling macOS through [Swi
 
 ## Requirements
 
-- macOS 15.0 or later
-- Swift 6.0 or later
-- Xcode 16.0 or later
+- macOS 27.0 or later (required by SwiftAutoGUI 1.0.0)
+- Swift 6.2 or later
+- Xcode 27.0 or later
 
 ## Installation
 
