@@ -6,11 +6,11 @@ import PackageDescription
 let package = Package(
     name: "swift-mcp-gui",
     platforms: [
-        .macOS(.v26)
+        .macOS("27.0")
     ],
     dependencies: [
         .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.12.0"),
-        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI.git", from: "0.17.0")
+        .package(url: "https://github.com/NakaokaRei/SwiftAutoGUI.git", from: "1.0.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.

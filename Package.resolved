@@ -1,5 +1,5 @@
 {
-  "originHash" : "fb40e7a9f31609c38299ed5d58294d0a50b705948201c56e3d71f036f2aff9f5",
+  "originHash" : "46e042027ad148c5dd5abc9a458f23636edc7fc69ac0d6936a3c74a578d1d593",
   "pins" : [
     {
       "identity" : "eventsource",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "a3a85a85214caf642abaa96ae664e4c772a59f6e",
         "version" : "1.4.1"
+      }
+    },
+    {
+      "identity" : "foundation-models-utilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/foundation-models-utilities",
+      "state" : {
+        "revision" : "2aa12937e30d310687f40fc470ea35495816c9a4",
+        "version" : "1.0.0-beta5"
       }
     },
     {
@@ -78,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/NakaokaRei/SwiftAutoGUI.git",
       "state" : {
-        "revision" : "516e2d513d5ad3f53110c76f6e43b29242fa135a",
-        "version" : "0.30.0"
+        "revision" : "c13d808609651af04e5a6141c1df143d8ed7c4d8",
+        "version" : "1.0.0"
       }
     }
   ],
